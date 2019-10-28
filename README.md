@@ -2,10 +2,40 @@
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 ![Lanes Image](./examples/example_output.jpg)
 
-In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
+In this project my goal was to write a software pipeline to indentify the lane boundaries in a video. 
+First of all I calibrate the camera by using buil-in opencv camera calibration functions. Laterly I use some customised binary threshold function to highlight lines and use perspective transformation to bird-view. After this I use sliding window or searching near previously finded polyline to find position of the lane in image. After all of these I compute car position on the lane and lane curvature and visualise lane and its features on image. 
 
-Creating a great writeup:
+
 ---
+
+### Camera calibration
+
+this stage is located under heading **camera calibration** in my "AdvancedLineFinding" ipython notebook.
+
+Because of some defects in camera lenses there are geometrical distortion and we need to correct them to use camera images to truly undestand forms of the real objects.
+
+We use simply recogniseble patern as chessboard (regular secuenses of black and white squares) situated on a flat surface. We use 9x6 pattern. Take many pictures of it and find chessboar couners of it by cv2.findChessboardCorners. As we assume that patter is on a flat surfate we know that all line should be strate. We use cv2.calibrateCamera function which retuns mtx and dist coefficiets which further used to undistort images by cv2.undistort function.
+
+Here is the result of the camera calibration for the chessboard image.
+![Chessboard](./output_images/distUndist.png)
+
+---
+
+### Pipeline (single images)
+
+First of all undistort our real images.
+Here is the example.
+![Real image undistortion](./output_images/realDistUndist.png)
+
+Later in section **finding threshold** I try different color spaces like rgb, hls and hsv to find out which is the best to highlight lines on image, also I try different  gradients as x, y, magnitude and directional.
+Finaly I used combined threshold which consists of v channel from hsv, s channel from hsl and complex gradient threshold (**final threshold** section)
+
+Here is the result of my threshold function.
+![Threshold](./output_images/Thresholded.png)
+
+
+
+
 A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
 
 All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
