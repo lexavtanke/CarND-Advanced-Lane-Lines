@@ -33,37 +33,32 @@ Finaly I used combined threshold which consists of v channel from hsv, s channel
 Here is the result of my threshold function.
 ![Threshold](./output_images/Thresholded.png)
 
+In section **perspective transform** I use transformation image to bird-view because only in this view we can accurately measure curvature of the lane without distortions from ourpoint of view.
+Here is the result of my pespective transform.
+![PrespectiveTransform](./output_images/bird.png)
 
+There are 2 lane finding algirithm in **find line** section. 
+Frist algo is sliding window, it is used on a start of find line process or if we lost our line under some circumstanses as dramaticaly litening or color changes.  First point of the algorithm is histogram of the bottom half of the binary image, there we can find 2 peaks - these are starting points of our lines. After we go up and searching for continuing of the line in some margin near the center of the previous window and continuous the process to the top of the image.
 
+Here is the image of the lines founded by the slinding function.
+![SlidingWindow](./output_images/window.png)
 
-A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
+The second one is searching near poly line from the previous image. It takes some poly line and search for the activated pixels on bin image in some area near the poly line. 
+Here is the image of the lines founded by the search near poly.
+![SearchNear](./output_images/search_near.png)
 
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
+After finding points of the left and right lines on image I use np.polyfit to find polynominal coefficents of the curv that aproximates the line.
 
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
+In section **measure curvature and car position** I calculate line curvature by using poly coefficents of the line and bottom pixels by y axis and also I use conversion from pixels to metes. Car position is estimted by findig center of the car as the center of the image, and the center of the lane as the mean of the starting points of the left and right lines. As we known these number we can find car position by substraction one from another.
 
-The Project
+The full pipeline for video processing is situated in **make pipeline** section. There I use Line() class to store the information about left and right lines separately and there I can track changes of the lines parameters as the x, y of the line points, polylines, poly coefficients, was_detected and so one. 
+
+Here is a result of my pipeline:
+![Result](./output_images/final_output.png)
+
 ---
 
-The goals / steps of this project are the following:
+### Pipeline (video)
 
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-* Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
-* Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
-* Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
-
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
-
-To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `output_images`, and include a description in your writeup for the project of what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
-
-The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions.  The `harder_challenge.mp4` video is another optional challenge and is brutal!
-
-If you're feeling ambitious (again, totally optional though), don't stop there!  We encourage you to go out and take video of your own, calibrate your camera and show us how you would implement this project from scratch!
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
+In section **video processing** I pass all frames of project_video file throw my pipeline to get the final video of the project.
+Here is a [link to my video result](./project_output.mp4)
