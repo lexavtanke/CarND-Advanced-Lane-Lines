@@ -41,11 +41,11 @@ There are 2 lane finding algirithm in **find line** section.
 Frist algo is sliding window, it is used on a start of find line process or if we lost our line under some circumstanses as dramaticaly litening or color changes.  First point of the algorithm is histogram of the bottom half of the binary image, there we can find 2 peaks - these are starting points of our lines. After we go up and searching for continuing of the line in some margin near the center of the previous window and continuous the process to the top of the image.
 
 Here is the image of the lines founded by the slinding function.
-![SlidingWindow](./output_images/window.png)
+![SlidingWindow](./output_images/window.png).callout{float: right;}
 
 The second one is searching near poly line from the previous image. It takes some poly line and search for the activated pixels on bin image in some area near the poly line. 
 Here is the image of the lines founded by the search near poly.
-![SearchNear](./output_images/search_near.png)
+![SearchNear](./output_images/search_near.png).callout{float: right;}
 
 After finding points of the left and right lines on image I use np.polyfit to find polynominal coefficents of the curv that aproximates the line.
 
@@ -54,7 +54,7 @@ In section **measure curvature and car position** I calculate line curvature by 
 The full pipeline for video processing is situated in **make pipeline** section. There I use Line() class to store the information about left and right lines separately and there I can track changes of the lines parameters as the x, y of the line points, polylines, poly coefficients, was_detected and so one. 
 
 Here is a result of my pipeline:
-![Result](./output_images/final_output.png)
+![Result](./output_images/final_output.jpg)
 
 ---
 
@@ -62,3 +62,11 @@ Here is a result of my pipeline:
 
 In section **video processing** I pass all frames of project_video file throw my pipeline to get the final video of the project.
 Here is a [link to my video result](./project_output.mp4)
+
+---
+
+### Discussion
+
+The main challenges for me in this project were in trying processing challenge videos, first of all I take images from challenge video, after this I tried to find suitable tresholds for different color spaces but I can not find them, the images were very gray or very white. The one thing I had found is that gradients on such images work better than on images in good lighting condtion. But I did not include gradient as an independent channel in my finat threshold because of that in project video pefomance significantly decrease and lines were found there them should not be. 
+
+I think that using a some different pipelines for various lighting condition which can be switched will impruve the results. 
