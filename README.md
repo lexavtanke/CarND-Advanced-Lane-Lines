@@ -41,7 +41,7 @@ There are 2 lane finding algirithm in **find line** section.
 Frist algo is sliding window, it is used on a start of find line process or if we lost our line under some circumstanses as dramaticaly litening or color changes.  First point of the algorithm is histogram of the bottom half of the binary image, there we can find 2 peaks - these are starting points of our lines. After we go up and searching for continuing of the line in some margin near the center of the previous window and continuous the process to the top of the image.
 
 Here is the image of the lines founded by the slinding function.
-![SlidingWindow](./output_images/window.png)
+![SlidingWindow](./output_images/window.png){ float: right; }
 
 The second one is searching near poly line from the previous image. It takes some poly line and search for the activated pixels on bin image in some area near the poly line. 
 Here is the image of the lines founded by the search near poly.
