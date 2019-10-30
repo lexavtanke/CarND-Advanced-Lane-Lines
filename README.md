@@ -27,8 +27,8 @@ First of all undistort our real images.
 Here is the example.
 ![Real image undistortion](./output_images/realDistUndist.png)
 
-Later in section **finding threshold** I try different color spaces like rgb, hls and hsv to find out which is the best to highlight lines on image, also I try different  gradients as x, y, magnitude and directional.
-Finaly I used combined threshold which consists of v channel from hsv, s channel from hsl and complex gradient threshold (**final threshold** section)
+Later in section **finding threshold** I try different color spaces like rgb, hls and hsv to find out which is the best to highlight lines on image, also I try different  gradients as x, y, magnitude and directional. After project review from Udacity and its suggestion to use b channel in LAB color space. This give me the greate improvement. 
+Finaly I used combined threshold which consists of v channel from hsv, s channel from hsl, b channel from LAB and complex gradient threshold (**final threshold** section)
 
 Here is the result of my threshold function.
 ![Threshold](./output_images/Thresholded.png)
